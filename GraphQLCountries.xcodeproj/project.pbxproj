@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B595B8E72F99D63F00167D63 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = B595B8E62F99D63F00167D63 /* Apollo */; };
+		B595B8E92F99D63F00167D63 /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = B595B8E82F99D63F00167D63 /* ApolloAPI */; };
+		B595B8EB2F99D8EB00167D63 /* apollo-codegen-config.json in Resources */ = {isa = PBXBuildFile; fileRef = B595B8EA2F99D8EB00167D63 /* apollo-codegen-config.json */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B595B8CC2F99D52F00167D63 /* GraphQLCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphQLCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B595B8EA2F99D8EB00167D63 /* apollo-codegen-config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "apollo-codegen-config.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +30,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B595B8E92F99D63F00167D63 /* ApolloAPI in Frameworks */,
+				B595B8E72F99D63F00167D63 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +41,7 @@
 		B595B8C32F99D52F00167D63 = {
 			isa = PBXGroup;
 			children = (
+				B595B8EA2F99D8EB00167D63 /* apollo-codegen-config.json */,
 				B595B8CE2F99D52F00167D63 /* GraphQLCountries */,
 				B595B8CD2F99D52F00167D63 /* Products */,
 			);
@@ -65,6 +75,8 @@
 			);
 			name = GraphQLCountries;
 			packageProductDependencies = (
+				B595B8E62F99D63F00167D63 /* Apollo */,
+				B595B8E82F99D63F00167D63 /* ApolloAPI */,
 			);
 			productName = GraphQLCountries;
 			productReference = B595B8CC2F99D52F00167D63 /* GraphQLCountries.app */;
@@ -94,6 +106,9 @@
 			);
 			mainGroup = B595B8C32F99D52F00167D63;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B595B8E52F99D63F00167D63 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B595B8CD2F99D52F00167D63 /* Products */;
 			projectDirPath = "";
@@ -109,6 +124,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B595B8EB2F99D8EB00167D63 /* apollo-codegen-config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,11 +269,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -266,6 +284,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = RI.GraphQLCountries;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -284,11 +305,13 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -297,6 +320,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = RI.GraphQLCountries;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -328,6 +354,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B595B8E52F99D63F00167D63 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.25.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B595B8E62F99D63F00167D63 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B595B8E52F99D63F00167D63 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		B595B8E82F99D63F00167D63 /* ApolloAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B595B8E52F99D63F00167D63 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = ApolloAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B595B8C42F99D52F00167D63 /* Project object */;
 }

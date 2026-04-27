@@ -1,0 +1,19 @@
+query GetCountrySingle($countryCode: ID!) {
+    country(code: $countryCode) {
+        capital
+        phone
+        phones
+        currency
+        currencies
+        code
+        continent {
+            name
+            code
+        }
+        emoji
+        languages {
+            name
+            native
+        }
+    }
+}

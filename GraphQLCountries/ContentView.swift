@@ -9,77 +9,86 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
+    @StateObject private var viewModel = CountriesViewModel()
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+        NavigationStack {
+                VStack {
+                    Group {
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .frame(maxHeight: .infinity)
+                        } else if let error = viewModel.error {
+                            Text(error)
+                        } else {
+                            List(viewModel.countries, id: \.id) { country in
+                                HStack {
+                                    Text(country.emoji)
+                                    Text(country.name)
+                                }
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button(action: {viewModel.choosedCountry = country}, label: {Label("Open", systemImage: "internaldrive.fill").tint(.teal)})
+                                }
+                            }
+                            .listStyle(.sidebar)
+                            
+                        }
+                    }
+                }
+                .navigationTitle("Countries")
+                .navigationDestination(item: $viewModel.choosedCountry, destination: { country in
+                    DetailCountryView(viewModel: viewModel)
+                })
+                .safeAreaInset(edge: .bottom) {
+                    safeAreaInsetView
+                }
+        }
+        .task {
+            await viewModel.fetchContinents()
+            await viewModel.fetchCountries()
+        }
+    }
+    
+    private var safeAreaInsetView: some View {
+        ScrollView(.horizontal) {
+            let choosed = viewModel.choosedContinent != nil
+            
+            LazyHStack {
+                Button {
+                    viewModel.choosedContinent = nil
+                    Task {
+                        await viewModel.fetchCountries()
+                    }
+                } label: {
+                    Text("All")
+                        .foregroundStyle(.black)
+                        .padding(.horizontal)
+                        .frame(height: 40)
+                        .background(!choosed ? Color.teal : Color.yellow)
+                        .clipShape(Capsule())
+                }
+                
+                ForEach(viewModel.continents, id: \.id) { continent in
+                    Button {
+                        viewModel.choosedContinent = continent
+                        Task {
+                            await viewModel.fetchCountries(continent: continent.id)
+                        }
                     } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                        Text("\(continent.name)")
+                            .foregroundStyle(.black)
+                            .padding(.horizontal)
+                            .frame(height: 40)
+                            .background(choosed && viewModel.choosedContinent == continent ? Color.teal : Color.yellow)
+                            .clipShape(Capsule())
                     }
                 }
             }
-            Text("Select an item")
+            .padding(.horizontal)
         }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
+        .frame(height: 40)
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 #Preview {
     ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)

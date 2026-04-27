@@ -1,0 +1,6 @@
+query GetEuropeanCountries {
+  countries(filter: { continent: { eq: "EU" } }) {
+    name
+    code
+  }
+}

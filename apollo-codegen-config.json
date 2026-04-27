@@ -1,0 +1,23 @@
+{
+    "schemaNamespace": "CountriesAPI",
+    "input": {
+        "operationSearchPaths": ["GraphQLCountries/Core/GraphQL/**/*.graphql"],
+        "schemaSearchPaths": ["GraphQLCountries/Core/GraphQL/schema.graphqls"]
+    },
+    "output": {
+        "testMocks": {
+            "none": {}
+        },
+        "schemaTypes": {
+            "path": "./GraphQLCountries/Core/GraphQL/API",
+            "moduleType": {
+                "embeddedInTarget": {
+                    "name": "GraphQLCountries"
+                }
+            }
+        },
+        "operations": {
+            "inSchemaModule": {}
+        }
+    }
+}
