@@ -50,71 +50,71 @@ final class CountriesViewModel: ObservableObject {
     }
     
     //Async await
-    private func fetchCountriesAsync() async throws -> [CountryModel] {
-        try await withCheckedThrowingContinuation { continuation in
-            NetworkService.shared.apollo.fetch(query: CountriesAPI.GetCountriesQuery(), cachePolicy: .returnCacheDataElseFetch) { result in
-                switch result {
-                case .success(let graphQlResult):
-                    let resultToSend: [CountryModel] = graphQlResult.data?.countries.map({
-                        CountryModel(id: $0.code, name: $0.name, emoji: $0.emoji)
-                    }) ?? []
-                    continuation.resume(returning: resultToSend)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
-    }
-    
-    private func fetchFiltered(continent: String) async throws -> [CountryModel] {
-        try await withCheckedThrowingContinuation { continuation in
-            NetworkService.shared.apollo.fetch(query: CountriesAPI.GetCountriesByContinentQuery(continent: continent), cachePolicy: .returnCacheDataElseFetch) { result in
-                switch result {
-                case .success(let graphQlResult):
-                    let resultToSend: [CountryModel] = graphQlResult.data?.countries.map({
-                        CountryModel(id: $0.code, name: $0.name, emoji: $0.emoji)
-                    }) ?? []
-                    continuation.resume(returning: resultToSend)
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
-            }
-        }
-    }
-    
-    func fetchCountries(continent: String? = nil) async {
-        let key = continent ?? "All"
-        
-        if let cache = cacheCountries[key] {
-            countries = cache
-            print("cached countries \(countries.count)")
-            return
-        }
-        
-        isLoading = true
-        
-        defer {
-            isLoading = false
-            print("defer fetchCountries")
-        }
-        
-        do {
-            let result: [CountryModel]
-            
-            if let continent {
-                result = try await fetchFiltered(continent: continent)
-                print("filtered countries \(result.count)")
-            } else {
-                result = try await fetchCountriesAsync()
-                print("all countries \(result.count)")
-            }
-            
-            cacheCountries[key] = result
-            countries = result
-        } catch {
-            print("Error-" + error.localizedDescription)
-        }
-    }
+//    private func fetchCountriesAsync() async throws -> [CountryModel] {
+//        try await withCheckedThrowingContinuation { continuation in
+//            NetworkService.shared.apollo.fetch(query: CountriesAPI.GetCountriesQuery(), cachePolicy: .returnCacheDataElseFetch) { result in
+//                switch result {
+//                case .success(let graphQlResult):
+//                    let resultToSend: [CountryModel] = graphQlResult.data?.countries.map({
+//                        CountryModel(id: $0.code, name: $0.name, emoji: $0.emoji)
+//                    }) ?? []
+//                    continuation.resume(returning: resultToSend)
+//                case .failure(let error):
+//                    continuation.resume(throwing: error)
+//                }
+//            }
+//        }
+//    }
+//    
+//    private func fetchFiltered(continent: String) async throws -> [CountryModel] {
+//        try await withCheckedThrowingContinuation { continuation in
+//            NetworkService.shared.apollo.fetch(query: CountriesAPI.GetCountriesByContinentQuery(continent: continent), cachePolicy: .returnCacheDataElseFetch) { result in
+//                switch result {
+//                case .success(let graphQlResult):
+//                    let resultToSend: [CountryModel] = graphQlResult.data?.countries.map({
+//                        CountryModel(id: $0.code, name: $0.name, emoji: $0.emoji)
+//                    }) ?? []
+//                    continuation.resume(returning: resultToSend)
+//                case .failure(let error):
+//                    continuation.resume(throwing: error)
+//                }
+//            }
+//        }
+//    }
+//    
+//    func fetchCountries(continent: String? = nil) async {
+//        let key = continent ?? "All"
+//        
+//        if let cache = cacheCountries[key] {
+//            countries = cache
+//            print("cached countries \(countries.count)")
+//            return
+//        }
+//        
+//        isLoading = true
+//        
+//        defer {
+//            isLoading = false
+//            print("defer fetchCountries")
+//        }
+//        
+//        do {
+//            let result: [CountryModel]
+//            
+//            if let continent {
+//                result = try await fetchFiltered(continent: continent)
+//                print("filtered countries \(result.count)")
+//            } else {
+//                result = try await fetchCountriesAsync()
+//                print("all countries \(result.count)")
+//            }
+//            
+//            cacheCountries[key] = result
+//            countries = result
+//        } catch {
+//            print("Error-" + error.localizedDescription)
+//        }
+//    }
     
     private func getAllContinents() async throws -> [ContinentModel] {
         try await withCheckedThrowingContinuation { continuation in
@@ -187,6 +187,62 @@ final class CountriesViewModel: ObservableObject {
             cacheSingleCountry[key] = choosedCountrySingle
         } catch {
             print(error)
+        }
+    }
+    
+    //Async Stream
+    private func fetchCountryStream(continent: String?) -> AsyncStream<CountriesStateStream> {
+        AsyncStream { continuation in
+            continuation.yield(.loading)
+            
+            if let continent, !continent.isEmpty {
+                let concreteQuery = CountriesAPI.GetCountriesByContinentQuery(continent: continent)
+                NetworkService.shared.apollo.fetch(query: concreteQuery, cachePolicy: .returnCacheDataAndFetch) { result in
+                    switch result {
+                    case .success(let graphQLResult):
+                        let countries: [CountryModel] = graphQLResult.data?.countries.map {
+                            CountryModel(id: $0.code, name: $0.name, emoji: $0.emoji)
+                        } ?? []
+                        continuation.yield(.data(countries))
+                        continuation.finish()
+                    case .failure(let error):
+                        continuation.yield(.error(error))
+                        continuation.finish()
+                    }
+                }
+            } else {
+                let concreteQuery = CountriesAPI.GetCountriesQuery()
+                NetworkService.shared.apollo.fetch(query: concreteQuery, cachePolicy: .returnCacheDataAndFetch) { result in
+                    switch result {
+                    case .success(let graphQLResult):
+                        let countries: [CountryModel] = graphQLResult.data?.countries.map {
+                            CountryModel(id: $0.code, name: $0.name, emoji: $0.emoji)
+                        } ?? []
+                        continuation.yield(.data(countries))
+                        continuation.finish()
+                    case .failure(let error):
+                        continuation.yield(.error(error))
+                        continuation.finish()
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchCountriesStream(continent: String?) async {
+        for await state in fetchCountryStream(continent: continent) {
+            switch state {
+            case .loading:
+                isLoading = true
+                
+            case .data(let countriesArray):
+                self.countries = countriesArray
+                isLoading = false
+                
+            case .error(let error):
+                print(error)
+                isLoading = false
+            }
         }
     }
 }

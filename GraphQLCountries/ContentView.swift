@@ -45,7 +45,8 @@ struct ContentView: View {
         }
         .task {
             await viewModel.fetchContinents()
-            await viewModel.fetchCountries()
+//            await viewModel.fetchCountries()
+            await viewModel.fetchCountriesStream(continent: nil)
         }
     }
     
@@ -57,7 +58,8 @@ struct ContentView: View {
                 Button {
                     viewModel.choosedContinent = nil
                     Task {
-                        await viewModel.fetchCountries()
+//                        await viewModel.fetchCountries()
+                        await viewModel.fetchCountriesStream(continent: nil)
                     }
                 } label: {
                     Text("All")
@@ -72,7 +74,8 @@ struct ContentView: View {
                     Button {
                         viewModel.choosedContinent = continent
                         Task {
-                            await viewModel.fetchCountries(continent: continent.id)
+//                            await viewModel.fetchCountries(continent: continent.id)
+                            await viewModel.fetchCountriesStream(continent: continent.id)
                         }
                     } label: {
                         Text("\(continent.name)")
