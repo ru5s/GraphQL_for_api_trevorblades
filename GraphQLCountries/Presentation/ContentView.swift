@@ -9,7 +9,11 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @StateObject private var viewModel = CountriesViewModel()
+    @StateObject private var viewModel: CountriesViewModel
+    
+    init(viewModel: CountriesViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationStack {
@@ -28,25 +32,22 @@ struct ContentView: View {
                                 }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button(action: {
-                                        Task {
-                                            await viewModel.fetchSingleCountryUseCase(id: country.id)
-                                            viewModel.choosedCountry = country
-                                        }
+                                        viewModel.fetchSingleCountryUseCase(country: country)
                                     }, label: {Label("Open", systemImage: "internaldrive.fill").tint(.teal)})
                                 }
                             }
                             .listStyle(.sidebar)
+                            .safeAreaInset(edge: .bottom) {
+                                safeAreaInsetView
+                            }
                             
                         }
                     }
                 }
-                .navigationTitle("Countries")
                 .navigationDestination(item: $viewModel.choosedCountry, destination: { country in
                     DetailCountryView(country: viewModel.choosedCountrySingle)
                 })
-                .safeAreaInset(edge: .bottom) {
-                    safeAreaInsetView
-                }
+                .navigationTitle("Countries")
         }
         .task {
             await viewModel.fetchContinentsUseCase()
@@ -54,47 +55,46 @@ struct ContentView: View {
         }
     }
     
-    private var safeAreaInsetView: some View {
-        ScrollView(.horizontal) {
+    @ViewBuilder private var safeAreaInsetView: some View {
             let choosed = viewModel.choosedContinent != nil
-            
-            LazyHStack {
-                Button {
-                    viewModel.choosedContinent = nil
-                    Task {
-                        await viewModel.fetchCountriesUseCase(nil)
-                    }
-                } label: {
-                    Text("All")
-                        .foregroundStyle(.black)
-                        .padding(.horizontal)
-                        .frame(height: 40)
-                        .background(!choosed ? Color.teal : Color.yellow)
-                        .clipShape(Capsule())
-                }
-                
-                ForEach(viewModel.continents, id: \.id) { continent in
+            ScrollView(.horizontal) {
+                LazyHStack {
                     Button {
-                        viewModel.choosedContinent = continent
+                        viewModel.choosedContinent = nil
                         Task {
-                            await viewModel.fetchCountriesUseCase(continent.id)
+                            await viewModel.fetchCountriesUseCase(nil)
                         }
                     } label: {
-                        Text("\(continent.name)")
+                        Text("All")
                             .foregroundStyle(.black)
                             .padding(.horizontal)
                             .frame(height: 40)
-                            .background(choosed && viewModel.choosedContinent == continent ? Color.teal : Color.yellow)
+                            .background(!choosed ? Color.teal : Color.yellow)
                             .clipShape(Capsule())
                     }
+                    
+                    ForEach(viewModel.continents, id: \.id) { continent in
+                        Button {
+                            viewModel.choosedContinent = continent
+                            Task {
+                                await viewModel.fetchCountriesUseCase(continent.id)
+                            }
+                        } label: {
+                            Text("\(continent.name)")
+                                .foregroundStyle(.black)
+                                .padding(.horizontal)
+                                .frame(height: 40)
+                                .background(choosed && viewModel.choosedContinent == continent ? Color.teal : Color.yellow)
+                                .clipShape(Capsule())
+                        }
+                    }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-        }
-        .frame(height: 40)
+            .frame(height: 40)
     }
 }
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView(viewModel: .init(getCountriesUseCase: GetCountriesUseCase(repository: CountriesRepositoryImpl()), getContinentUseCase: GetContinentUseCase(repository: ContinentRepositoryImpl()))).environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

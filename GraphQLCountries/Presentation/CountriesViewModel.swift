@@ -25,12 +25,9 @@ final class CountriesViewModel: ObservableObject {
     private let contriesUseCases: GetCountriesUseCase
     private let continentUseCases: GetContinentUseCase
     
-    init() {
-        let countriesRepo = CountriesRepositoryImpl()
-        self.contriesUseCases = GetCountriesUseCase(repository: countriesRepo)
-        
-        let continentRepo = ContinentRepositoryImpl()
-        self.continentUseCases = GetContinentUseCase(repository: continentRepo)
+    init(getCountriesUseCase: GetCountriesUseCase, getContinentUseCase: GetContinentUseCase) {
+        self.contriesUseCases = getCountriesUseCase
+        self.continentUseCases = getContinentUseCase
     }
     
     deinit {
@@ -52,12 +49,15 @@ final class CountriesViewModel: ObservableObject {
         }
     }
     
-    func fetchSingleCountryUseCase(id: String) async  {
-        do {
-            choosedCountrySingle = try await contriesUseCases.singleCountryByID(id)
-            cacheSingleCountry[id] = choosedCountrySingle
-        } catch {
-            print(error)
+    func fetchSingleCountryUseCase(country: CountryModel) {
+        Task {
+            do {
+                choosedCountrySingle = try await contriesUseCases.singleCountryByID(country.id)
+                cacheSingleCountry[country.id] = choosedCountrySingle
+                choosedCountry = country
+            } catch {
+                print(error)
+            }
         }
     }
     

@@ -11,10 +11,11 @@ import CoreData
 @main
 struct GraphQLCountriesApp: App {
     let persistenceController = PersistenceController.shared
+    let containger = AppDIContainer()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: CountriesViewModel(getCountriesUseCase: containger.getCountriesUseCase, getContinentUseCase: containger.getContinentUseCase))
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
