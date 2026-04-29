@@ -24,10 +24,15 @@ struct ContentView: View {
                             List(viewModel.countries, id: \.id) { country in
                                 HStack {
                                     Text(country.emoji)
-                                    Text(country.name)
+                                    Text("\(country.name) \(viewModel.getNumberBySingleCountry(id: country.id))")
                                 }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    Button(action: {viewModel.choosedCountry = country}, label: {Label("Open", systemImage: "internaldrive.fill").tint(.teal)})
+                                    Button(action: {
+                                        Task {
+                                            await viewModel.fetchSingleCountryUseCase(id: country.id)
+                                            viewModel.choosedCountry = country
+                                        }
+                                    }, label: {Label("Open", systemImage: "internaldrive.fill").tint(.teal)})
                                 }
                             }
                             .listStyle(.sidebar)
@@ -37,16 +42,15 @@ struct ContentView: View {
                 }
                 .navigationTitle("Countries")
                 .navigationDestination(item: $viewModel.choosedCountry, destination: { country in
-                    DetailCountryView(viewModel: viewModel)
+                    DetailCountryView(country: viewModel.choosedCountrySingle)
                 })
                 .safeAreaInset(edge: .bottom) {
                     safeAreaInsetView
                 }
         }
         .task {
-            await viewModel.fetchContinents()
-//            await viewModel.fetchCountries()
-            await viewModel.fetchCountriesStream(continent: nil)
+            await viewModel.fetchContinentsUseCase()
+            await viewModel.fetchCountriesUseCase(nil)
         }
     }
     
@@ -58,8 +62,7 @@ struct ContentView: View {
                 Button {
                     viewModel.choosedContinent = nil
                     Task {
-//                        await viewModel.fetchCountries()
-                        await viewModel.fetchCountriesStream(continent: nil)
+                        await viewModel.fetchCountriesUseCase(nil)
                     }
                 } label: {
                     Text("All")
@@ -74,8 +77,7 @@ struct ContentView: View {
                     Button {
                         viewModel.choosedContinent = continent
                         Task {
-//                            await viewModel.fetchCountries(continent: continent.id)
-                            await viewModel.fetchCountriesStream(continent: continent.id)
+                            await viewModel.fetchCountriesUseCase(continent.id)
                         }
                     } label: {
                         Text("\(continent.name)")

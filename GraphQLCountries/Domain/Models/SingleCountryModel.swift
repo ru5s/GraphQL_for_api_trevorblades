@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LanguageModel: Identifiable {
+struct LanguageModel: Identifiable, Hashable {
     var id: UUID = .init()
     let name: String
     let native: String
@@ -23,4 +23,28 @@ struct SingleCountryModel: Identifiable {
     let continent: ContinentModel
     let emoji: String
     let languages: [LanguageModel]
+    
+    init(id: String, capital: String?, phone: String, phones: [String], currency: String?, currencies: [String], continent: ContinentModel, emoji: String, languages: [LanguageModel]) {
+        self.id = id
+        self.capital = capital
+        self.phone = phone
+        self.phones = phones
+        self.currency = currency
+        self.currencies = currencies
+        self.continent = continent
+        self.emoji = emoji
+        self.languages = languages
+    }
+    
+    init() {
+        self.id = ""
+        self.capital = ""
+        self.phone = "123"
+        self.phones = []
+        self.currency = nil
+        self.currencies = []
+        self.continent = .init(id: "", name: "")
+        self.emoji = ""
+        self.languages = []
+    }
 }
