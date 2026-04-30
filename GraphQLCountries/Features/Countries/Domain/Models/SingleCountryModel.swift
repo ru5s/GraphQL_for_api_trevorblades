@@ -37,7 +37,7 @@ struct SingleCountryModel: Identifiable {
     }
     
     init() {
-        self.id = ""
+        self.id = "BS"
         self.capital = ""
         self.phone = "123"
         self.phones = []

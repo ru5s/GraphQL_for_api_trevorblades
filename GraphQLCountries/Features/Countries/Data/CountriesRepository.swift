@@ -83,3 +83,27 @@ final class CountriesRepositoryImpl: CountriesRepository {
         }
     }
 }
+
+final class MockCountriesRepositoryImpl: CountriesRepository {
+    func fetchAll() -> AsyncStream<CountriesStateStream> {
+        AsyncStream { continuation in
+            let returnMock: [CountryModel] = [.init(id: "US", name: "United", emoji: "")]
+            continuation.yield(.data(returnMock))
+            continuation.finish()
+        }
+    }
+    
+    func fetchByContinent(_ continent: String) -> AsyncStream<CountriesStateStream> {
+        AsyncStream { continuation in
+            let returnMock: [CountryModel] = [.init(id: "BS", name: "United", emoji: ""), .init(id: "DS", name: "United", emoji: "")]
+            continuation.yield(.data(returnMock))
+            continuation.finish()
+        }
+    }
+    
+    func getCountryByID(code: String) async throws -> SingleCountryModel {
+        return .init()
+    }
+    
+    
+}

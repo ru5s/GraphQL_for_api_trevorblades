@@ -29,3 +29,9 @@ final class ContinentRepositoryImpl: ContinentRepository {
         }
     }
 }
+
+final class MockContinentRepositoryImpl: ContinentRepository {
+    func getAllContinents() async throws -> [ContinentModel] {
+        return [.init(id: "1", name: ""), .init(id: "2", name: "")]
+    }
+}

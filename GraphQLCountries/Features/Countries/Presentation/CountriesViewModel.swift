@@ -49,12 +49,14 @@ final class CountriesViewModel: ObservableObject {
         }
     }
     
-    func fetchSingleCountryUseCase(country: CountryModel) {
+    func fetchSingleCountryUseCase(country: CountryModel, onlyPhone: Bool = false) {
         Task {
             do {
                 choosedCountrySingle = try await contriesUseCases.singleCountryByID(country.id)
                 cacheSingleCountry[country.id] = choosedCountrySingle
-                choosedCountry = country
+                if !onlyPhone {
+                    choosedCountry = country
+                }
             } catch {
                 print(error)
             }

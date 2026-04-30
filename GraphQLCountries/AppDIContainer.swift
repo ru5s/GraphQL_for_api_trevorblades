@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class AppDIContainer {
     //Repositories
@@ -17,12 +18,26 @@ final class AppDIContainer {
         ContinentRepositoryImpl()
     }()
     
-    //UseCases
-    lazy var getCountriesUseCase: GetCountriesUseCase = {
+    //UseCases transient
+    func makeGetCountriesUseCase() -> GetCountriesUseCase {
         GetCountriesUseCase(repository: countriesRepository)
-    }()
+    }
     
-    lazy var getContinentUseCase: GetContinentUseCase = {
+    func makeGetContinentUseCase() -> GetContinentUseCase {
         GetContinentUseCase(repository: continentRepository)
-    }()
+    }
+    
+    deinit {
+        print("deinit AppDIContainer")
+    }
+}
+
+extension AppDIContainer {
+    func makeCountriesView() -> some View {
+        let vm = CountriesViewModel(
+            getCountriesUseCase: makeGetCountriesUseCase(),
+            getContinentUseCase: makeGetContinentUseCase()
+        )
+        return ContentView(viewModel: vm)
+    }
 }

@@ -15,7 +15,7 @@ struct GraphQLCountriesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: CountriesViewModel(getCountriesUseCase: containger.getCountriesUseCase, getContinentUseCase: containger.getContinentUseCase))
+            containger.makeCountriesView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

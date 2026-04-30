@@ -12,15 +12,31 @@
 		B595B8EB2F99D8EB00167D63 /* apollo-codegen-config.json in Resources */ = {isa = PBXBuildFile; fileRef = B595B8EA2F99D8EB00167D63 /* apollo-codegen-config.json */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B595BA942FA2162900167D63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B595B8C42F99D52F00167D63 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B595B8CB2F99D52F00167D63;
+			remoteInfo = GraphQLCountries;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		B595B8CC2F99D52F00167D63 /* GraphQLCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GraphQLCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B595B8EA2F99D8EB00167D63 /* apollo-codegen-config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "apollo-codegen-config.json"; sourceTree = "<group>"; };
+		B595BA902FA2162900167D63 /* GraphQLCountriesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GraphQLCountriesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B595B8CE2F99D52F00167D63 /* GraphQLCountries */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = GraphQLCountries;
+			sourceTree = "<group>";
+		};
+		B595BA912FA2162900167D63 /* GraphQLCountriesTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = GraphQLCountriesTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +51,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B595BA8D2FA2162900167D63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -43,6 +66,7 @@
 			children = (
 				B595B8EA2F99D8EB00167D63 /* apollo-codegen-config.json */,
 				B595B8CE2F99D52F00167D63 /* GraphQLCountries */,
+				B595BA912FA2162900167D63 /* GraphQLCountriesTests */,
 				B595B8CD2F99D52F00167D63 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				B595B8CC2F99D52F00167D63 /* GraphQLCountries.app */,
+				B595BA902FA2162900167D63 /* GraphQLCountriesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,6 +107,29 @@
 			productReference = B595B8CC2F99D52F00167D63 /* GraphQLCountries.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B595BA8F2FA2162900167D63 /* GraphQLCountriesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B595BA962FA2162900167D63 /* Build configuration list for PBXNativeTarget "GraphQLCountriesTests" */;
+			buildPhases = (
+				B595BA8C2FA2162900167D63 /* Sources */,
+				B595BA8D2FA2162900167D63 /* Frameworks */,
+				B595BA8E2FA2162900167D63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B595BA952FA2162900167D63 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B595BA912FA2162900167D63 /* GraphQLCountriesTests */,
+			);
+			name = GraphQLCountriesTests;
+			packageProductDependencies = (
+			);
+			productName = GraphQLCountriesTests;
+			productReference = B595BA902FA2162900167D63 /* GraphQLCountriesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -94,6 +142,10 @@
 				TargetAttributes = {
 					B595B8CB2F99D52F00167D63 = {
 						CreatedOnToolsVersion = 26.2;
+					};
+					B595BA8F2FA2162900167D63 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = B595B8CB2F99D52F00167D63;
 					};
 				};
 			};
@@ -115,6 +167,7 @@
 			projectRoot = "";
 			targets = (
 				B595B8CB2F99D52F00167D63 /* GraphQLCountries */,
+				B595BA8F2FA2162900167D63 /* GraphQLCountriesTests */,
 			);
 		};
 /* End PBXProject section */
@@ -128,6 +181,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B595BA8E2FA2162900167D63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -138,7 +198,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B595BA8C2FA2162900167D63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B595BA952FA2162900167D63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B595B8CB2F99D52F00167D63 /* GraphQLCountries */;
+			targetProxy = B595BA942FA2162900167D63 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B595B8DA2F99D53000167D63 /* Debug */ = {
@@ -332,6 +407,46 @@
 			};
 			name = Release;
 		};
+		B595BA972FA2162900167D63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = RI.GraphQLCountriesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GraphQLCountries.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GraphQLCountries";
+			};
+			name = Debug;
+		};
+		B595BA982FA2162900167D63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = RI.GraphQLCountriesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GraphQLCountries.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GraphQLCountries";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -349,6 +464,15 @@
 			buildConfigurations = (
 				B595B8DD2F99D53000167D63 /* Debug */,
 				B595B8DE2F99D53000167D63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B595BA962FA2162900167D63 /* Build configuration list for PBXNativeTarget "GraphQLCountriesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B595BA972FA2162900167D63 /* Debug */,
+				B595BA982FA2162900167D63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

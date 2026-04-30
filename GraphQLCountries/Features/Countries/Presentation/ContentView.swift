@@ -30,10 +30,13 @@ struct ContentView: View {
                                     Text(country.emoji)
                                     Text("\(country.name) \(viewModel.getNumberBySingleCountry(id: country.id))")
                                 }
+                                .onTapGesture {
+                                    viewModel.fetchSingleCountryUseCase(country: country)
+                                }
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button(action: {
-                                        viewModel.fetchSingleCountryUseCase(country: country)
-                                    }, label: {Label("Open", systemImage: "internaldrive.fill").tint(.teal)})
+                                        viewModel.fetchSingleCountryUseCase(country: country, onlyPhone: true)
+                                    }, label: {Label("Get phone", systemImage: "phone.circle.fill").tint(.teal)})
                                 }
                             }
                             .listStyle(.sidebar)
@@ -48,6 +51,9 @@ struct ContentView: View {
                     DetailCountryView(country: viewModel.choosedCountrySingle)
                 })
                 .navigationTitle("Countries")
+//                .sheet(item: $viewModel.choosedCountry, content: { country in
+//                    DetailCountryView(country: viewModel.choosedCountrySingle)
+//                })
         }
         .task {
             await viewModel.fetchContinentsUseCase()
